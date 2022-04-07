@@ -9,7 +9,6 @@ const uni_payment_client = (function () {
 
     const axios = require('axios');
     const os = require('os');
-    const uuid = require('uuid');
     const crypto = require('crypto');
     let apiHost = '';
     let appId = '';
@@ -222,7 +221,7 @@ const uni_payment_client = (function () {
         if (body !== undefined && body !== null && body.trim() !== '') {
             requestContentBase64String = crypto.createHash('md5').update(body).digest("base64")
         }
-        const nonce = uuid.v4().replaceAll('-', '');
+        const nonce = crypto.randomBytes(16).toString("hex");
         const signatureRawData = appId + requestMethod + requestUri + requestTimeStamp + nonce + requestContentBase64String;
         const signature = crypto.createHmac('SHA256', apiKey).update(signatureRawData).digest('base64');
         return appId + ':' + signature + ':' + nonce + ':' + requestTimeStamp;
