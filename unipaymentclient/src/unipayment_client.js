@@ -26,7 +26,7 @@ const uni_payment_client = (function () {
             throw new Error('"configuration" object is missing. Constructor should be called with a json object');
         }
         apiHost = (typeof options === 'object') ? options.apiHost : options;
-        apiHost = apiHost ? apiHost : 'https://sandbox.unipayment.io';
+        apiHost = apiHost ? apiHost : 'https://sandbox-api.unipayment.io';
         if (apiHost.length === 0) {
             throw new Error('apiHost parameter must be specified as a string.');
         }
@@ -77,7 +77,7 @@ const uni_payment_client = (function () {
             parameters['page_size'] = 10;
         }
 
-        const url = apiHost + '/api/v' + apiVersion + '/invoices'
+        const url = apiHost + '/v' + apiVersion + '/invoices'
         return axios.post(url, parameters, {
             headers: {
                 'User-Agent': SDK_NAME,
@@ -104,7 +104,7 @@ const uni_payment_client = (function () {
             }
         const queryString = params.join("&");
 
-        let url = apiHost + '/api/v' + apiVersion + '/invoices'
+        let url = apiHost + '/v' + apiVersion + '/invoices'
         if (params.length > 0) {
             url += '?' + queryString;
         }
@@ -126,7 +126,7 @@ const uni_payment_client = (function () {
         if (invoiceId === undefined || invoiceId === null || invoiceId.trim() === '') {
             throw new Error('"invoiceId" parameter is missing.');
         }
-        const url = apiHost + '/api/v' + apiVersion + '/invoices/' + invoiceId
+        const url = apiHost + '/v' + apiVersion + '/invoices/' + invoiceId
         return axios.get(url, {
             headers: {
                 'User-Agent': SDK_NAME,
@@ -142,7 +142,7 @@ const uni_payment_client = (function () {
      * @method
      */
     uni_payment_client.prototype.queryIps = () => {
-        const url = apiHost + '/api/v' + apiVersion + '/ips'
+        const url = apiHost + '/v' + apiVersion + '/ips'
         return axios.get(url, {
             headers: {
                 'User-Agent': SDK_NAME,
@@ -157,7 +157,7 @@ const uni_payment_client = (function () {
      * @method
      */
     uni_payment_client.prototype.getCurrencies = () => {
-        const url = apiHost + '/api/v' + apiVersion + '/currencies'
+        const url = apiHost + '/v' + apiVersion + '/currencies'
         return axios.get(url, {
             headers: {
                 'User-Agent': SDK_NAME,
@@ -175,7 +175,7 @@ const uni_payment_client = (function () {
         if (fiatCurrency === undefined || fiatCurrency === null || fiatCurrency.trim() === '') {
             throw new Error('"fiatCurrency" parameter is missing.');
         }
-        const url = apiHost + '/api/v' + apiVersion + '/rates/' + fiatCurrency
+        const url = apiHost + '/v' + apiVersion + '/rates/' + fiatCurrency
         return axios.get(url, {
             headers: {
                 'User-Agent': SDK_NAME,
@@ -196,8 +196,28 @@ const uni_payment_client = (function () {
         if (cryptoCurrency === undefined || cryptoCurrency === null || cryptoCurrency.trim() === '') {
             throw new Error('"cryptoCurrency" parameter is missing.');
         }
-        const url = apiHost + '/api/v' + apiVersion + '/rates/' + fiatCurrency + '/' + cryptoCurrency
+        const url = apiHost + '/v' + apiVersion + '/rates/' + fiatCurrency + '/' + cryptoCurrency
         return axios.get(url, {
+            headers: {
+                'User-Agent': SDK_NAME,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+    };
+
+
+     /**
+     * Check IPN
+     * @method
+     */
+    uni_payment_client.prototype.checkIpn = (notify) => {
+        if (notify === undefined || notify === null || notify.trim() === '') {
+            throw new Error('"notify" parameter is missing.');
+        }
+
+        const url = apiHost + '/v' + apiVersion + '/ipn'
+        return axios.post(url, notify, {
             headers: {
                 'User-Agent': SDK_NAME,
                 'Content-Type': 'application/json',
