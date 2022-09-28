@@ -11,11 +11,11 @@ const uni_payment_client = (function () {
     const os = require('os');
     const crypto = require('crypto');
     let apiHost = '';
-    let appId = '';
-    let apiKey = '';
+    let clientId = '';
+    let clientSecret = '';
     let apiVersion = '1.0'
 
-    const SDK_NAME = "unipayment_sdk_node/1.0.0.0 (" + os.type() + ' ' + os.release() + ')';
+    const SDK_NAME = "unipayment_sdk_node/1.0.1 (" + os.type() + ' ' + os.release() + ')';
 
     /**
      * Constructor
@@ -32,16 +32,16 @@ const uni_payment_client = (function () {
         }
 
         const missingValues = [];
-        if (options.appId) {
-            appId = options.appId;
+        if (options.clientId) {
+            clientId = options.clientId;
         } else {
-            missingValues.push('appId');
+            missingValues.push('clientId');
         }
 
-        if (options.apiKey) {
-            apiKey = options.apiKey;
+        if (options.clientSecret) {
+            clientSecret = options.clientSecret;
         } else {
-            missingValues.push('apiKey');
+            missingValues.push('clientSecret');
         }
 
         if (options.apiVersion) {
@@ -81,7 +81,7 @@ const uni_payment_client = (function () {
         return axios.post(url, parameters, {
             headers: {
                 'User-Agent': SDK_NAME,
-                'Authorization': 'Hmac ' + signRequest(appId, apiKey, url, 'POST', JSON.stringify(parameters)),
+                'Authorization': 'Hmac ' + signRequest(clientId, clientSecret, url, 'POST', JSON.stringify(parameters)),
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
@@ -111,7 +111,7 @@ const uni_payment_client = (function () {
         return axios.get(url, {
             headers: {
                 'User-Agent': SDK_NAME,
-                'Authorization': 'Hmac ' + signRequest(appId, apiKey, url, 'GET', ''),
+                'Authorization': 'Hmac ' + signRequest(clientId, clientSecret, url, 'GET', ''),
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
@@ -130,7 +130,7 @@ const uni_payment_client = (function () {
         return axios.get(url, {
             headers: {
                 'User-Agent': SDK_NAME,
-                'Authorization': 'Hmac ' + signRequest(appId, apiKey, url, 'GET', ''),
+                'Authorization': 'Hmac ' + signRequest(clientId, clientSecret, url, 'GET', ''),
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
@@ -228,13 +228,13 @@ const uni_payment_client = (function () {
 
     /**
      * Sign Request
-     * @param appId APP ID
-     * @param apiKey API Key
+     * @param clientId Client ID
+     * @param clientSecret Client Secret
      * @param uri URL
      * @param requestMethod Request Method
      * @param body Request Body
      */
-    function signRequest(appId, apiKey, uri, requestMethod, body) {
+    function signRequest(clientId, clientSecret, uri, requestMethod, body) {
         const requestTimeStamp = Math.round(Date.now() / 1000);
         const requestUri = encodeURIComponent(uri.toLowerCase());
         let requestContentBase64String = '';
@@ -242,9 +242,9 @@ const uni_payment_client = (function () {
             requestContentBase64String = crypto.createHash('md5').update(body).digest("base64")
         }
         const nonce = crypto.randomBytes(16).toString("hex");
-        const signatureRawData = appId + requestMethod + requestUri + requestTimeStamp + nonce + requestContentBase64String;
-        const signature = crypto.createHmac('SHA256', apiKey).update(signatureRawData).digest('base64');
-        return appId + ':' + signature + ':' + nonce + ':' + requestTimeStamp;
+        const signatureRawData = clientId + requestMethod + requestUri + requestTimeStamp + nonce + requestContentBase64String;
+        const signature = crypto.createHmac('SHA256', clientSecret).update(signatureRawData).digest('base64');
+        return clientId + ':' + signature + ':' + nonce + ':' + requestTimeStamp;
     }
 
     return uni_payment_client;
