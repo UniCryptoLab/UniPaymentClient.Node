@@ -9,9 +9,9 @@ const UniPaymentClient = require('../../unipaymentclient/src/unipayment_client')
 router.get('/', function (req, res, next) {
     res.render('index', {
         title: 'Home Page',
-        appId: configuration.appId,
+        clientId: configuration.clientId,
         apiHost: configuration.apiHost,
-        apiKey: configuration.apiKey
+        clientSecret: configuration.clientSecret
     });
 });
 
@@ -19,9 +19,9 @@ router.get('/', function (req, res, next) {
 router.get('/create-invoice', function (req, res, next) {
     res.render('index', {
         title: 'Create Invoice',
-        appId: configuration.appId,
+        clientId: configuration.clientId,
         apiHost: configuration.apiHost,
-        apiKey: configuration.apiKey
+        clientSecret: configuration.clientSecret
     });
 });
 
@@ -29,9 +29,9 @@ router.get('/create-invoice', function (req, res, next) {
 router.get('/query-invoice', function (req, res, next) {
     res.render('query', {
         title: 'Query Invoice',
-        appId: configuration.appId,
+        clientId: configuration.clientId,
         apiHost: configuration.apiHost,
-        apiKey: configuration.apiKey
+        clientSecret: configuration.clientSecret
     });
 });
 
@@ -39,8 +39,8 @@ router.get('/query-invoice', function (req, res, next) {
 router.post('/create-invoice', function (req, res, next) {
 
     const appHost = req.body.apiHost;
-    const appId = req.body.appId;
-    const apiKey = req.body.apiKey;
+    const clientId = req.body.clientId;
+    const clientSecret = req.body.clientSecret;
 
     const parameters = {
         "title": req.body.title,
@@ -57,8 +57,8 @@ router.post('/create-invoice', function (req, res, next) {
     }
 
     configuration.appHost = appHost;
-    configuration.appId = appId;
-    configuration.apiKey = apiKey;
+    configuration.clientId = clientId;
+    configuration.clientSecret = clientSecret;
     const uniPaymentClient = new UniPaymentClient(configuration);
 
     uniPaymentClient.createInvoice(parameters).then(response => {
@@ -68,9 +68,9 @@ router.post('/create-invoice', function (req, res, next) {
             res.render('index', {
                 title: 'Home Page',
                 error: response.data.Msg,
-                appId: configuration.appId,
+                clientId: configuration.clientId,
                 apiHost: configuration.apiHost,
-                apiKey: configuration.apiKey
+                clientSecret: configuration.clientSecret
             });
         }
     }).catch(error => {
@@ -78,9 +78,9 @@ router.post('/create-invoice', function (req, res, next) {
         res.render('index', {
             title: 'Home Page',
             error: error,
-            appId: configuration.appId,
+            clientId: configuration.clientId,
             apiHost: configuration.apiHost,
-            apiKey: configuration.apiKey
+            clientSecret: configuration.clientSecret
         });
     })
 });
@@ -89,8 +89,8 @@ router.post('/create-invoice', function (req, res, next) {
 router.post('/query-invoice', function (req, res, next) {
 
     const appHost = req.body.apiHost;
-    const appId = req.body.appId;
-    const apiKey = req.body.apiKey;
+    const clientId = req.body.clientId;
+    const clientSecret = req.body.clientSecret;
 
     const parameters = {
         'order_id': req.body.orderId,
@@ -102,8 +102,8 @@ router.post('/query-invoice', function (req, res, next) {
     };
 
     configuration.appHost = appHost;
-    configuration.appId = appId;
-    configuration.apiKey = apiKey;
+    configuration.clientId = clientId;
+    configuration.clientSecret = clientSecret;
     const uniPaymentClient = new UniPaymentClient(configuration);
 
     uniPaymentClient.getInvoices(parameters).then(response => {
@@ -111,18 +111,18 @@ router.post('/query-invoice', function (req, res, next) {
             title: 'Query Invoice',
             queryResult: response.data.data.models,
             totalCount: response.data.data.total,
-            appId: configuration.appId,
+            clientId: configuration.clientId,
             apiHost: configuration.apiHost,
-            apiKey: configuration.apiKey
+            clientSecret: configuration.clientSecret
         });
     }).catch(error => {
         console.log(error);
         res.render('query', {
             title: 'Query Invoice',
             error: error,
-            appId: configuration.appId,
+            clientId: configuration.clientId,
             apiHost: configuration.apiHost,
-            apiKey: configuration.apiKey
+            clientSecret: configuration.clientSecret
         });
     })
 });

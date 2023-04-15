@@ -10,7 +10,7 @@ const uniPaymentClient = new UniPaymentClient(configuration);
 
 it('Create Invoice', (done) => {
     const parameters = {
-        "app_id": "2a9bd90b-fe95-4659-83cb-04de662fbbac",
+        "app_id": "69eb0bf8-8612-4ee6-a6d4-1cb634d8be12",
         "title": "Test Invoice",
         "description": "Test Desc",
         "lang": "en-US",
@@ -46,7 +46,7 @@ it('Get Invoices', (done) => {
 });
 
 it('Query Invoice By Invoice Id Test', (done) => {
-    uniPaymentClient.queryInvoiceById('SrAARgNrPgvveiBQtNc4gk').then(response => {
+    uniPaymentClient.queryInvoiceById('3TRVatALvQvXxMBtznSNCz').then(response => {
         printResponse(response);
         assert.equal(response.data.code === 'OK', true);
         done();
