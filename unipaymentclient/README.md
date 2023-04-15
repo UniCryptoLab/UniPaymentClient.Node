@@ -48,8 +48,8 @@ Sandbox is used in the same way with is_sandbox as true.
 ```json
 {
   "apiHost": "https://sandbox-api.unipayment.io",
-  "appId": "1c089e34-c91c-48c0-a710-13e2ec65fa14",
-  "apiKey": "8E8gjv8FCf1sEVhcnQdDkhcgizP4XPbzA",
+  "clientId": "1c089e34-c91c-48c0-a710-13e2ec65fa14",
+  "clientSecret": "8E8gjv8FCf1sEVhcnQdDkhcgizP4XPbzA",
   "apiVersion": "1.0"
 }
 ```
