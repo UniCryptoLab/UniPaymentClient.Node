@@ -30,8 +30,8 @@ configuration.json
 ```json
 {
   "apiHost": "https://api.unipayment.io",
-  "appId": "cee1b9e2-d90c-4b63-9824-d621edb38012",
-  "apiKey": "9G62Fd7fCQGyznVvatk4SAfGsHDEt819E",
+  "clientId": "1c089e34-c91c-48c0-a710-13e2ec65fa14",
+  "clientSecret": "8E8gjv8FCf1sEVhcnQdDkhcgizP4XPbzA",
   "apiVersion": "1.0"
 }
 ```
@@ -48,8 +48,8 @@ Sandbox is used in the same way with is_sandbox as true.
 ```json
 {
   "apiHost": "https://sandbox-api.unipayment.io",
-  "appId": "cee1b9e2-d90c-4b63-9824-d621edb38012",
-  "apiKey": "9G62Fd7fCQGyznVvatk4SAfGsHDEt819E",
+  "appId": "1c089e34-c91c-48c0-a710-13e2ec65fa14",
+  "apiKey": "8E8gjv8FCf1sEVhcnQdDkhcgizP4XPbzA",
   "apiVersion": "1.0"
 }
 ```
@@ -61,6 +61,7 @@ Sandbox is used in the same way with is_sandbox as true.
 const client = new UniPaymentClient(configuration);
 
 const parameters = {
+        "app_id": "69eb0bf8-8612-4ee6-a6d4-1cb634d8be12",
         "title": "Test Invoice",
         "description": "Test Desc",
         "lang": "en-US",
