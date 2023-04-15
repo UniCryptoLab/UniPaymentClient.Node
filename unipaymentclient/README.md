@@ -29,7 +29,7 @@ npm install unipayment-client
 configuration.json
 ```json
 {
-  "apiHost": "https://sandbox.unipayment.io",
+  "apiHost": "https://api.unipayment.io",
   "appId": "cee1b9e2-d90c-4b63-9824-d621edb38012",
   "apiKey": "9G62Fd7fCQGyznVvatk4SAfGsHDEt819E",
   "apiVersion": "1.0"
