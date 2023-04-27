@@ -32,8 +32,8 @@ configuration.json
 ```json
 {
   "apiHost": "https://api.unipayment.io",
-  "clientId": "1c089e34-c91c-48c0-a710-13e2ec65fa14",
-  "clientSecret": "8E8gjv8FCf1sEVhcnQdDkhcgizP4XPbzA",
+  "clientId": "your client id",
+  "clientSecret": "you client secret",
   "apiVersion": "1.0"
 }
 ```
@@ -50,8 +50,8 @@ Sandbox is used in the same way with is_sandbox as true.
 ```json
 {
   "apiHost": "https://sandbox-api.unipayment.io",
-  "clientId": "1c089e34-c91c-48c0-a710-13e2ec65fa14",
-  "clientSecret": "8E8gjv8FCf1sEVhcnQdDkhcgizP4XPbzA",
+  "clientId": "your client id",
+  "clientSecret": "you client secret",
   "apiVersion": "1.0"
 }
 ```
@@ -63,7 +63,7 @@ Sandbox is used in the same way with is_sandbox as true.
 const client = new UniPaymentClient(configuration);
 
 const parameters = {
-        "app_id": "69eb0bf8-8612-4ee6-a6d4-1cb634d8be12",
+        "app_id": "you payment app id",
         "title": "Test Invoice",
         "description": "Test Desc",
         "lang": "en-US",
