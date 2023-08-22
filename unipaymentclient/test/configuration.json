@@ -1,6 +1,6 @@
 {
-  "apiHost": "https://api.unipayment.io",
-  "clientId": "1c089e34-c91c-48c0-a710-13e2ec65fa14",
-  "clientSecret": "8E8gjv8FCf1sEVhcnQdDkhcgizP4XPbzA",
+  "apiHost": "https://sandbox-api.unipayment.io",
+  "clientId": "399fc017-6305-4073-ab1b-7ca5d37be985",
+  "clientSecret": "94eWn6GdAWbWMmdTbTRa1e9HAZgs851Ry",
   "apiVersion": "1.0"
 }

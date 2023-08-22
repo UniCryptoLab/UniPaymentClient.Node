@@ -1,5 +1,6 @@
 /*jshint -W069 */
 
+const axios = require("axios");
 /**
  * @class unipayment_client
  * @type {function(): unipayment_client}
@@ -69,14 +70,6 @@ const uni_payment_client = (function () {
             parameters = {};
         }
 
-        if (!parameters.hasOwnProperty('page_no')) {
-            parameters['page_no'] = 1;
-        }
-
-        if (!parameters.hasOwnProperty('page_size')) {
-            parameters['page_size'] = 10;
-        }
-
         const url = apiHost + '/v' + apiVersion + '/invoices'
         return axios.post(url, parameters, {
             headers: {
@@ -95,6 +88,14 @@ const uni_payment_client = (function () {
     uni_payment_client.prototype.getInvoices = (parameters) => {
         if (parameters === undefined) {
             parameters = {};
+        }
+
+        if (!parameters.hasOwnProperty('page_no')) {
+            parameters['page_no'] = 1;
+        }
+
+        if (!parameters.hasOwnProperty('page_size')) {
+            parameters['page_size'] = 10;
         }
 
         const params = [];
@@ -207,7 +208,7 @@ const uni_payment_client = (function () {
     };
 
 
-     /**
+    /**
      * Check IPN
      * @method
      */
@@ -220,6 +221,215 @@ const uni_payment_client = (function () {
         return axios.post(url, notify, {
             headers: {
                 'User-Agent': SDK_NAME,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+    };
+
+    /**
+     * Create Payout
+     * @method
+     */
+    uni_payment_client.prototype.createPayout = (parameters) => {
+        if (parameters === undefined) {
+            parameters = {};
+        }
+
+        const url = apiHost + '/v' + apiVersion + '/payouts'
+        return axios.post(url, parameters, {
+            headers: {
+                'User-Agent': SDK_NAME,
+                'Authorization': 'Hmac ' + signRequest(clientId, clientSecret, url, 'POST', JSON.stringify(parameters)),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+    };
+
+    /**
+     * Get Payout By ID
+     * @method
+     */
+    uni_payment_client.prototype.getPayoutById = (payoutId) => {
+        if (payoutId === undefined || payoutId === null || payoutId.trim() === '') {
+            throw new Error('"payoutId" parameter is missing.');
+        }
+        const url = apiHost + '/v' + apiVersion + '/payouts/' + payoutId
+        return axios.get(url, {
+            headers: {
+                'User-Agent': SDK_NAME,
+                'Authorization': 'Hmac ' + signRequest(clientId, clientSecret, url, 'GET', ''),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+    };
+
+    /**
+     * Get Payouts
+     * @method
+     */
+    uni_payment_client.prototype.getPayouts = (parameters) => {
+        if (parameters === undefined) {
+            parameters = {};
+        }
+
+        if (!parameters.hasOwnProperty('page_no')) {
+            parameters['page_no'] = 1;
+        }
+
+        if (!parameters.hasOwnProperty('page_size')) {
+            parameters['page_size'] = 10;
+        }
+
+        const params = [];
+        for (const p in parameters)
+            if (parameters.hasOwnProperty(p)) {
+                params.push(p + "=" + parameters[p]);
+            }
+        const queryString = params.join("&");
+
+        let url = apiHost + '/v' + apiVersion + '/payouts'
+        if (params.length > 0) {
+            url += '?' + queryString;
+        }
+        return axios.get(url, {
+            headers: {
+                'User-Agent': SDK_NAME,
+                'Authorization': 'Hmac ' + signRequest(clientId, clientSecret, url, 'GET', ''),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+    };
+
+    /**
+     * Get Payout By ID
+     * @method
+     */
+    uni_payment_client.prototype.getPayoutById = (payoutId) => {
+        if (payoutId === undefined || payoutId === null || payoutId.trim() === '') {
+            throw new Error('"payoutId" parameter is missing.');
+        }
+        const url = apiHost + '/v' + apiVersion + '/payouts/' + payoutId
+        return axios.get(url, {
+            headers: {
+                'User-Agent': SDK_NAME,
+                'Authorization': 'Hmac ' + signRequest(clientId, clientSecret, url, 'GET', ''),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+    };
+
+    /**
+     * Get Wallet Balances
+     * @method
+     */
+    uni_payment_client.prototype.getWalletBalances = () => {
+        let url = apiHost + '/v' + apiVersion + '/wallet/balances'
+        return axios.get(url, {
+            headers: {
+                'User-Agent': SDK_NAME,
+                'Authorization': 'Hmac ' + signRequest(clientId, clientSecret, url, 'GET', ''),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+    };
+
+    /**
+     * Create Withdrawal
+     * @method
+     */
+    uni_payment_client.prototype.createWithdrawal = (createWithdrawalRequest) => {
+        if (createWithdrawalRequest === undefined || createWithdrawalRequest === null || createWithdrawalRequest.trim() === '') {
+            throw new Error('"createWithdrawalRequest" parameter is missing.');
+        }
+
+        const url = apiHost + '/v' + apiVersion + '/wallet/withdrawals'
+        return axios.post(url, createWithdrawalRequest, {
+            headers: {
+                'User-Agent': SDK_NAME,
+                'Authorization': 'Hmac ' + signRequest(clientId, clientSecret, url, 'POST', createWithdrawalRequest),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+    };
+
+    /**
+     * Cancel Withdrawal
+     * @method
+     */
+    uni_payment_client.prototype.cancelWithdrawal = (cancelWithdrawalRequest) => {
+        if (cancelWithdrawalRequest === undefined || cancelWithdrawalRequest === null || cancelWithdrawalRequest.trim() === '') {
+            throw new Error('"createWithdrawalRequest" parameter is missing.');
+        }
+
+        const url = apiHost + '/v' + apiVersion + '/wallet/withdrawals/cancel'
+        return axios.post(url, cancelWithdrawalRequest, {
+            headers: {
+                'User-Agent': SDK_NAME,
+                'Authorization': 'Hmac ' + signRequest(clientId, clientSecret, url, 'POST', cancelWithdrawalRequest),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+    };
+
+    /**
+     * Get Withdrawal By ID
+     * @method
+     */
+    uni_payment_client.prototype.getWithdrawalById = (withdrawalId) => {
+        if (withdrawalId === undefined || withdrawalId === null || withdrawalId.trim() === '') {
+            throw new Error('"withdrawalId" parameter is missing.');
+        }
+        const url = apiHost + '/v' + apiVersion + '/wallet/withdrawals/' + withdrawalId
+        return axios.get(url, {
+            headers: {
+                'User-Agent': SDK_NAME,
+                'Authorization': 'Hmac ' + signRequest(clientId, clientSecret, url, 'GET', ''),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+    };
+
+    /**
+     * Get Withdrawals
+     * @method
+     */
+    uni_payment_client.prototype.getWithdrawals = (parameters) => {
+        if (parameters === undefined) {
+            parameters = {};
+        }
+
+        if (!parameters.hasOwnProperty('page_no')) {
+            parameters['page_no'] = 1;
+        }
+
+        if (!parameters.hasOwnProperty('page_size')) {
+            parameters['page_size'] = 10;
+        }
+
+        const params = [];
+        for (const p in parameters)
+            if (parameters.hasOwnProperty(p)) {
+                params.push(p + "=" + parameters[p]);
+            }
+        const queryString = params.join("&");
+
+        let url = apiHost + '/v' + apiVersion + '/wallet/withdrawals'
+        if (params.length > 0) {
+            url += '?' + queryString;
+        }
+        return axios.get(url, {
+            headers: {
+                'User-Agent': SDK_NAME,
+                'Authorization': 'Hmac ' + signRequest(clientId, clientSecret, url, 'GET', ''),
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
