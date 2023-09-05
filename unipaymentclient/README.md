@@ -8,11 +8,11 @@ This SDK provides a convenient abstraction of UniPayment's Gateway API and allow
 
 ## Getting Started
 
-[SDK Tutorial](https://unipayment.io/en/docs/sdk/tutorial/)
+[Integrate Tutorial](https://help.unipayment.io/en/articles/7851188-integrate-with-payment-gateway)
 
 Before using the UniPayment API, sign up for your [API key](https://console.unipayment.io/).
 
-If you want to use the Sandbox, sign up [here](https://sandbox-console.unipayment.io/).
+You can also use our test tokens for testing and integration. [Documentation](https://help.unipayment.io/en/articles/8263248-how-to-use-testcoin).
 
 ## Installation
 
@@ -43,17 +43,6 @@ const UniPaymentClient = require('../src/unipayment_client').uni_payment_client;
 const configuration = require('./configuration.json');
 const client = new UniPaymentClient(configuration);
 
-```
-
-Sandbox is used in the same way with is_sandbox as true.
-
-```json
-{
-  "apiHost": "https://sandbox-api.unipayment.io",
-  "clientId": "your client id",
-  "clientSecret": "you client secret",
-  "apiVersion": "1.0"
-}
 ```
 
 ## Create an invoice
