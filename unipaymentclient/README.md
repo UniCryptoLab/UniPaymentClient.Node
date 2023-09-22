@@ -39,7 +39,8 @@ configuration.json
 ```
 
 ```nodejs
-const UniPaymentClient = require('../src/unipayment_client').uni_payment_client;
+import UniPayment from 'unipayment-client'
+const UniPaymentClient = UniPayment.uni_payment_client;
 const configuration = require('./configuration.json');
 const client = new UniPaymentClient(configuration);
 
