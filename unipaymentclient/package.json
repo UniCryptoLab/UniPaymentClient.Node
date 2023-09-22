@@ -1,6 +1,7 @@
 {
   "name": "unipayment-client",
-  "version": "1.1.0",
+  "version": "1.1.1",
+  "main":"src/unipayment_client.js",
   "description": "This SDK provides a convenient abstraction of UniPayment's Gateway API and allows developers to focus on payment flow/e-commerce integration rather than on the specific details of client-server interaction using the raw API.",
   "scripts": {
     "test": "mocha"

@@ -16,7 +16,7 @@ const uni_payment_client = (function () {
     let clientSecret = '';
     let apiVersion = '1.0'
 
-    const SDK_NAME = "unipayment_sdk_node/1.0.1 (" + os.type() + ' ' + os.release() + ')';
+    const SDK_NAME = "unipayment_sdk_node/1.1.1 (" + os.type() + ' ' + os.release() + ')';
 
     /**
      * Constructor
