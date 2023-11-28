@@ -56,7 +56,7 @@ const parameters = {
         "app_id": "you payment app id",
         "title": "Test Invoice",
         "description": "Test Desc",
-        "lang": "en-US",
+        "lang": "en",
         "price_amount": 100.0,
         "price_currency": "USD",
         "notify_url": "https://example.com/notify",
