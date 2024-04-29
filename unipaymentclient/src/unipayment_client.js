@@ -435,6 +435,25 @@ const uni_payment_client = (function () {
             }
         })
     };
+    /**
+     * Get Withdrawl Fee
+     * @method
+     */
+    uni_payment_client.prototype.getWithdrawalFee = (assetType) => {
+        if (assetType === undefined || assetType === null || assetType.trim() === '') {
+            throw new Error('"assetType" parameter is missing.');
+        }
+        const url = apiHost + '/v' + apiVersion + '/wallet/withdrawal-fees/' + assetType
+        return axios.get(url, {
+            headers: {
+                'User-Agent': SDK_NAME,
+                'Authorization': 'Hmac ' + signRequest(clientId, clientSecret, url, 'GET', ''),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+    };
+
 
     /**
      * Sign Request
