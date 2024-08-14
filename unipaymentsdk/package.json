@@ -1,0 +1,40 @@
+{
+  "name": "unipayment-sdk",
+  "version": "2.0.0",
+  "description": "This SDK provides a convenient abstraction of UniPayment's Gateway API and allows developers to focus on payment flow/e-commerce integration rather than on the specific details of client-server interaction using the raw API.",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint --fix -c .eslintrc.cjs --ext .tsx,.ts,.jsx,.js ./src/ test/",
+    "test": "mocha --timeout 10000"
+  },
+  "lint-staged": {
+    "./(src|tests)/**/*.(ts|tsx|js|jsx)": [
+      "eslint --fix -c .eslintrc.cjs --ext .tsx,.ts,.jsx,.js"
+    ]
+  },
+  "author": "Vincent <vincent@unipayment.io>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UniCryptoLab/UniPaymentClient.Node"
+  },
+  "keywords": [
+    "unipayment",
+    "btc",
+    "eth",
+    "usdt",
+    "usdc",
+    "payment",
+    "gateway"
+  ],
+  "homepage": "https://unipayment.io",
+  "dependencies": {
+    "axios": "^1.7.3",
+    "bunyan": "^1.8.15",
+    "jackson-js": "^1.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.7.3",
+    "uuid": "^10.0.0"
+  }
+}
