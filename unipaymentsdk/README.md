@@ -1,6 +1,6 @@
 # UniPayment NodeJS SDK
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](../../LICENSE.txt)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](../LICENSE.txt)
 
 A NodeJS SDK for the [UniPayment API](https://unipayment.readme.io/reference/overview).
 
@@ -44,10 +44,7 @@ configuration.json
 ```
 
 ```nodejs
-const configuration = require('./configuration.json');
-const UnipaymentSDK = require('unipayment-sdk');
-const BillingAPI = UnipaymentSDK.BillingAPI;
-const billingAPI = new BillingAPI(configuration);
+const {BeneficiaryAPI, BillingAPI, CommonAPI, ExchangeAPI, PaymentAPI, WalletAPI} = require('unipayment-sdk');
 ```
 
 ## Authentication
@@ -65,8 +62,7 @@ endpoint. This request must include your client_id, client_secret, and the grant
 
 ```javascript
 const {v4: uuidv4} = require('uuid');
-const UnipaymentSDK = require('unipayment-sdk');
-const BillingAPI = UnipaymentSDK.BillingAPI;
+const {BillingAPI} = require('unipayment-sdk');
 const billingAPI = new BillingAPI(configuration);
 
 const createInvoiceRequest = {
@@ -127,8 +123,7 @@ IPNs (Instant Payment Notifications) are sent to the notify_url when order statu
 complete.
 
 ```javascript
-const UnipaymentSDK = require('unipayment-sdk');
-const CommonAPI = UnipaymentSDK.CommonAPI;
+const {CommonAPI} = require('unipayment-sdk');
 const commonAPI = new CommonAPI(configuration);
 const notify = 'notify from unipayment'
 

@@ -2,15 +2,9 @@
   "name": "unipayment-sdk",
   "version": "2.0.0",
   "description": "This SDK provides a convenient abstraction of UniPayment's Gateway API and allows developers to focus on payment flow/e-commerce integration rather than on the specific details of client-server interaction using the raw API.",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "lint": "eslint --fix -c .eslintrc.cjs --ext .tsx,.ts,.jsx,.js ./src/ test/",
-    "test": "mocha --timeout 10000"
-  },
-  "lint-staged": {
-    "./(src|tests)/**/*.(ts|tsx|js|jsx)": [
-      "eslint --fix -c .eslintrc.cjs --ext .tsx,.ts,.jsx,.js"
-    ]
+    "test": "mocha --recursive test/ --timeout 60000"
   },
   "author": "Vincent <vincent@unipayment.io>",
   "license": "MIT",
