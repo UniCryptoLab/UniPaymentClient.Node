@@ -1,130 +1,103 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const configuration = require('./configuration.json');
-const UnipaymentSDK = require('unipayment-sdk');
-const BillingAPI = UnipaymentSDK.BillingAPI;
+const {BeneficiaryAPI, BillingAPI, CommonAPI, ExchangeAPI, PaymentAPI, WalletAPI} = require('unipayment-sdk');
+
+// Middleware to set common view variables
+router.use((req, res, next) => {
+    res.locals.clientId = configuration.clientId;
+    res.locals.apiHost = configuration.apiHost;
+    res.locals.clientSecret = configuration.clientSecret;
+    next();
+});
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.render('index', {
-        title: 'Home Page',
-        clientId: configuration.clientId,
-        apiHost: configuration.apiHost,
-        clientSecret: configuration.clientSecret
-    });
+    res.render('index', {title: 'Home Page'});
 });
 
 /* GET create invoice page. */
 router.get('/create-invoice', function (req, res, next) {
-    res.render('index', {
-        title: 'Create Invoice',
-        clientId: configuration.clientId,
-        apiHost: configuration.apiHost,
-        clientSecret: configuration.clientSecret
-    });
+    res.render('index', {title: 'Create Invoice'});
 });
 
-/* GET create invoice page. */
+/* GET query invoice page. */
 router.get('/query-invoice', function (req, res, next) {
-    res.render('query', {
-        title: 'Query Invoice',
-        clientId: configuration.clientId,
-        apiHost: configuration.apiHost,
-        clientSecret: configuration.clientSecret
-    });
+    res.render('query', {title: 'Query Invoice'});
 });
 
 /* POST create invoice. */
-router.post('/create-invoice', function (req, res, next) {
+router.post('/create-invoice', async function (req, res, next) {
+    try {
+        const {apiHost, clientId, clientSecret, ...parameters} = req.body;
 
-    const appHost = req.body.apiHost;
-    const clientId = req.body.clientId;
-    const clientSecret = req.body.clientSecret;
+        // Validate required fields
+        if (!clientId || !apiHost || !clientSecret) {
+            return res.render('index', {
+                title: 'Home Page',
+                error: 'Missing required fields: clientId, apiHost, or clientSecret'
+            });
+        }
 
-    const parameters = {
-        "title": req.body.title,
-        "description": req.body.description,
-        "lang": req.body.lang,
-        "price_amount": req.body.priceAmount,
-        "price_currency": req.body.priceCurrency,
-        "pay_currency": req.body.payCurrency,
-        "notify_url": req.body.notifyUrl,
-        "redirect_url": req.body.redirectUrl,
-        "order_id": req.body.orderId,
-        "confirm_speed": req.body.confirmSpeed,
-        "ext_args": req.body.extArgs
-    }
+        // Update configuration
+        configuration.apiHost = apiHost;
+        configuration.clientId = clientId;
+        configuration.clientSecret = clientSecret;
 
-    configuration.appHost = appHost;
-    configuration.clientId = clientId;
-    configuration.clientSecret = clientSecret;
-    const billingAPI = new BillingAPI(configuration);
+        const billingAPI = new BillingAPI(configuration);
+        const response = await billingAPI.createInvoice(parameters);
 
-    billingAPI.createInvoice(parameters).then(response => {
         if (response.data.code === 'OK') {
             res.redirect(response.data.data.invoice_url);
         } else {
             res.render('index', {
                 title: 'Home Page',
-                error: response.data.Msg,
-                clientId: configuration.clientId,
-                apiHost: configuration.apiHost,
-                clientSecret: configuration.clientSecret
+                error: response.data.Msg
             });
         }
-    }).catch(error => {
-        console.log(error);
+    } catch (error) {
+        console.error(error);
         res.render('index', {
             title: 'Home Page',
-            error: error,
-            clientId: configuration.clientId,
-            apiHost: configuration.apiHost,
-            clientSecret: configuration.clientSecret
+            error: 'An error occurred while creating the invoice.'
         });
-    })
+    }
 });
 
 /* POST query invoice. */
-router.post('/query-invoice', function (req, res, next) {
+router.post('/query-invoice', async function (req, res, next) {
+    try {
+        const {apiHost, clientId, clientSecret, ...parameters} = req.body;
 
-    const appHost = req.body.apiHost;
-    const clientId = req.body.clientId;
-    const clientSecret = req.body.clientSecret;
+        // Validate required fields
+        if (!clientId || !apiHost || !clientSecret) {
+            return res.render('query', {
+                title: 'Query Invoice',
+                error: 'Missing required fields: clientId, apiHost, or clientSecret'
+            });
+        }
 
-    const parameters = {
-        'order_id': req.body.orderId,
-        'invoice_id': req.body.invoiceId,
-        'status': req.body.status,
-        'start': req.body.start,
-        'end': req.body.end,
-        'isAsc': req.body.is_asc
-    };
+        // Update configuration
+        configuration.apiHost = apiHost;
+        configuration.clientId = clientId;
+        configuration.clientSecret = clientSecret;
 
-    configuration.appHost = appHost;
-    configuration.clientId = clientId;
-    configuration.clientSecret = clientSecret;
-    const billingAPI = new BillingAPI(configuration);
-    billingAPI.queryInvoices(parameters).then(response => {
+        const billingAPI = new BillingAPI(configuration);
+        const response = await billingAPI.queryInvoices(parameters);
+
         res.render('query', {
             title: 'Query Invoice',
             queryResult: response.data.data.models,
-            totalCount: response.data.data.total,
-            clientId: configuration.clientId,
-            apiHost: configuration.apiHost,
-            clientSecret: configuration.clientSecret
+            totalCount: response.data.data.total
         });
-    }).catch(error => {
-        console.log(error);
+    } catch (error) {
+        console.error(error);
         res.render('query', {
             title: 'Query Invoice',
-            error: error,
-            clientId: configuration.clientId,
-            apiHost: configuration.apiHost,
-            clientSecret: configuration.clientSecret
+            error: 'An error occurred while querying the invoice.'
         });
-    })
+    }
 });
-
 
 /* GET privacy page. */
 router.get('/privacy', function (req, res, next) {

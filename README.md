@@ -1,6 +1,6 @@
 # UniPayment NodeJS SDK
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](../../LICENSE.txt)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE.txt)
 
 A NodeJS SDK for the [UniPayment API](https://unipayment.readme.io/reference/overview).
 
