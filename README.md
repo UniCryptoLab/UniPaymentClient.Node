@@ -169,14 +169,23 @@ IPN notify
 }
 ```
 
-## Webhook Signature
+## Webhook Signature Verification
 
-The Signature Algorithm secures webhook notifications by encoding the JSON data using UTF-8, hashing it with HMAC-SHA256
-along with a shared secret key, and then encoding the resulting hash in Base64 to produce a verifiable signature.
+See https://unipayment.readme.io/reference/webhook
 
-See: https://unipayment.readme.io/reference/webhook
+Use the below code to verify of the 'hmac_signature' which can extract from the request header
 
+```javascript
 
+const {WebhookSignatureUtil} = require('unipayment-sdk');
+
+//Use raw json payload (no formatting or pretty print)
+const payload = 'json payload';
+const secretKey = 'your secret key';
+const signature = 'signature to verify';
+const valid = WebhookSignatureUtil.isValid($payload, $secretKey, $signature);
+
+```
 
 ## Run Example
 
