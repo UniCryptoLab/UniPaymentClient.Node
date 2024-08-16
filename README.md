@@ -169,6 +169,15 @@ IPN notify
 }
 ```
 
+## Webhook Signature
+
+The Signature Algorithm secures webhook notifications by encoding the JSON data using UTF-8, hashing it with HMAC-SHA256
+along with a shared secret key, and then encoding the resulting hash in Base64 to produce a verifiable signature.
+
+See: https://unipayment.readme.io/reference/webhook
+
+
+
 ## Run Example
 
 1.Get source code form GitHub

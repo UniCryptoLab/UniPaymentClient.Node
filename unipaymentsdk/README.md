@@ -169,6 +169,24 @@ IPN notify
 }
 ```
 
+## Webhook Signature Verification
+
+See https://unipayment.readme.io/reference/webhook
+
+Use the below code to verify of the 'hmac_signature' which can extract from the request header
+
+```javascript
+
+const {WebhookSignatureUtil} = require('unipayment-sdk');
+
+//Use raw json payload (no formatting or pretty print)
+const payload = 'json payload';
+const secretKey = 'your secret key';
+const signature = 'signature to verify';
+const valid = WebhookSignatureUtil.isValid($payload, $secretKey, $signature);
+
+```
+
 ## Run Example
 
 1.Get source code form GitHub

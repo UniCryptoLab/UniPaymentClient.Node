@@ -4,6 +4,8 @@ const CommonAPI = require('./src/CommonAPI');
 const ExchangeAPI = require('./src/ExchangeAPI');
 const PaymentAPI = require('./src/PaymentAPI');
 const WalletAPI = require('./src/WalletAPI');
+const WebhookAPI = require('./src/WebhookAPI')
+const WebhookSignatureUtil = require('./src/WebhookSignatureUtil')
 
 module.exports = {
     BeneficiaryAPI,
@@ -12,4 +14,6 @@ module.exports = {
     ExchangeAPI,
     PaymentAPI,
     WalletAPI,
+    WebhookAPI,
+    WebhookSignatureUtil
 };
