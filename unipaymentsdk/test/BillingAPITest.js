@@ -12,7 +12,30 @@ it('Create Invoice', (done) => {
         'price_amount': 1.00,
         'price_currency': 'USD',
         'lang': 'en',
-        'ext_args': 'Merchant Pass Through Data'
+        'ext_args': 'Merchant Pass Through Data',
+    };
+    billingAPI.createInvoice(createInvoiceRequest).then(response => {
+        printResponse(response);
+        assert.equal(response.data.code === 'OK', true);
+        done();
+    }).catch(error => {
+        done();
+        console.log(error);
+    })
+});
+
+it('Create Invoice With Host To Host Mode', (done) => {
+    const createInvoiceRequest = {
+        'app_id': configuration.appId,
+        'order_id': uuidv4(),
+        'price_amount': 20.00,
+        'price_currency': 'USD',
+        'lang': 'en',
+        'ext_args': 'Merchant Pass Through Data',
+        'host_to_host_mode': true,
+        'payment_method_type': 'CRYPTO',
+        'pay_currency': 'BNB',
+        'network': 'NETWORK_BSC'
     };
     billingAPI.createInvoice(createInvoiceRequest).then(response => {
         printResponse(response);
